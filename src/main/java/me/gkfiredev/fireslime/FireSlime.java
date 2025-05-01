@@ -1,5 +1,14 @@
 package me.gkfiredev.fireslime;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -12,14 +21,6 @@ import me.gkfiredev.fireslime.entities.SFVillager;
 import me.gkfiredev.fireslime.slimefun.FireCategories;
 import me.gkfiredev.fireslime.slimefun.FireRegistry;
 import me.gkfiredev.fireslime.tools.FiniteRock;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class FireSlime extends JavaPlugin implements SlimefunAddon {
 
@@ -68,7 +69,7 @@ public class FireSlime extends JavaPlugin implements SlimefunAddon {
 
     @Override
     public String getBugTrackerURL() {
-        return "https://github.com/GKFire/FireSlime/issues";
+        return "https://github.com/balugaq/FireSlime/issues";
     }
 
     public void registerFireSlimeItems() {
@@ -90,24 +91,24 @@ public class FireSlime extends JavaPlugin implements SlimefunAddon {
 
 
     private void registerPickaxe(Material type, String component, ItemStack item, List<Pair<Enchantment, Integer>> enchantments) {
-        SlimefunItemStack is = new SlimefunItemStack(component + "_PICKAXE", type, "&r" + ChatUtils.humanize(component) + " Pickaxe");
+        SlimefunItemStack is = new SlimefunItemStack(component + "_PICKAXE_FIRESLIME", type, "&r" + ChatUtils.humanize(component) + "镐");
 
         for (Pair<Enchantment, Integer> enchantment : enchantments) {
             is.addUnsafeEnchantment(enchantment.getFirstValue(), enchantment.getSecondValue());
         }
 
-        SlimefunItem slimefunItem = new SlimefunItem(FireCategories.FIRESLIME, is, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{item, item, item, null, new ItemStack(Material.STICK), null, null, new ItemStack(Material.STICK), null});
+        SlimefunItem slimefunItem = new SlimefunItem(FireCategories.FIRESLIME, is, RecipeType.MAGIC_WORKBENCH, new ItemStack[]{item, item, item, null, new ItemStack(Material.STICK), null, null, new ItemStack(Material.STICK), null});
         slimefunItem.register(this);
     }
 
     private void registerAxe(Material type, String component, ItemStack item, List<Pair<Enchantment, Integer>> enchantments) {
-        SlimefunItemStack is = new SlimefunItemStack(component + "_AXE", type, "&r" + ChatUtils.humanize(component) + " Axe");
+        SlimefunItemStack is = new SlimefunItemStack(component + "_AXE_FIRESLIME", type, "&r" + ChatUtils.humanize(component) + "斧");
 
         for (Pair<Enchantment, Integer> enchantment : enchantments) {
             is.addUnsafeEnchantment(enchantment.getFirstValue(), enchantment.getSecondValue());
         }
 
-        SlimefunItem slimefunItem = new SlimefunItem(FireCategories.FIRESLIME, is, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{item, item, null, item, new ItemStack(Material.STICK), null, null, new ItemStack(Material.STICK), null});
+        SlimefunItem slimefunItem = new SlimefunItem(FireCategories.FIRESLIME, is, RecipeType.MAGIC_WORKBENCH, new ItemStack[]{item, item, null, item, new ItemStack(Material.STICK), null, null, new ItemStack(Material.STICK), null});
         slimefunItem.register(this);
     }
 
