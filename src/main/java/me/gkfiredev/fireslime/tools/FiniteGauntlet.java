@@ -1,13 +1,9 @@
 package me.gkfiredev.fireslime.tools;
 
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -22,9 +18,14 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 
 public class FiniteGauntlet extends SlimefunItem {
 
@@ -52,15 +53,15 @@ public class FiniteGauntlet extends SlimefunItem {
         ItemStack item = event.getItem();
         event.cancel();
         if (p.getHealth() != p.getHealthScale()) {
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&', Slimefun.getCfg().getString("options.chat-prefix") + "&cYou are Too Weak to use the finite gauntlet again! You must be at full health to use the Gauntlet!"));
+            p.sendMessage(ChatColor.translateAlternateColorCodes('&', Slimefun.getCfg().getString("options.chat-prefix") + "&c你太虚弱了，无法再使用灭霸手套了！你必须完全恢复健康才能再次使用它！"));
             return null;
         }
         if (Bukkit.getOnlinePlayers().size() == 1) {
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&', Slimefun.getCfg().getString("options.chat-prefix") + "&cThere is no one else on the server! Why would you waste the power of the Finite Gauntlet?"));
+            p.sendMessage(ChatColor.translateAlternateColorCodes('&', Slimefun.getCfg().getString("options.chat-prefix") + "&c服务器上没有其他人！你为什么要浪费灭霸手套的能量?"));
             return null;
         }
         if (item.getAmount() > 1) {
-            p.sendMessage(ChatColors.color(Slimefun.getCfg().getString("options.chat-prefix") + "&cYou cannot use the Gauntlet in a stack!"));
+            p.sendMessage(ChatColors.color(Slimefun.getCfg().getString("options.chat-prefix") + "&c你无法堆叠使用灭霸手套!"));
             return null;
         }
         useGauntlet(p, item);
@@ -90,13 +91,13 @@ public class FiniteGauntlet extends SlimefunItem {
         meta.getPersistentDataContainer().set(usageKey, PersistentDataType.INTEGER, usesLeft);
 
         List<String> lore = meta.getLore();
-        lore.set(5, ChatColors.color("&7Uses Left: &e" + usesLeft));
+        lore.set(5, ChatColors.color("&7剩余次数: &e" + usesLeft));
         meta.setLore(lore);
         item.setItemMeta(meta);
 
         for (Player target : Bukkit.getOnlinePlayers())
             target.playSound(p.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_IMPACT, 2, 1);
-        Bukkit.broadcastMessage(ChatColors.color(Slimefun.getCfg().getString("options.chat-prefix") + ChatColor.GOLD + p.getName() + ChatColor.LIGHT_PURPLE + " snapped their fingers!"));
+        Bukkit.broadcastMessage(ChatColors.color(Slimefun.getCfg().getString("options.chat-prefix") + ChatColor.GOLD + p.getName() + ChatColor.LIGHT_PURPLE + " 打了一个响指!"));
         List<Player> DustPlayers = new ArrayList<Player>();
         List<Player> players = new ArrayList<Player>();
         for (Player target : Bukkit.getOnlinePlayers()) {
@@ -114,7 +115,7 @@ public class FiniteGauntlet extends SlimefunItem {
         }
         Bukkit.getScheduler().scheduleSyncDelayedTask(Slimefun.instance(), () -> {
             for (Player target : DustPlayers) {
-                target.kickPlayer("You should of aimed for the head.");
+                target.kickPlayer("你应该瞄准头部。");
             }
 
         }, delay * 20);

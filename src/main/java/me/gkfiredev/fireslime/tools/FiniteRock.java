@@ -37,8 +37,8 @@ public class FiniteRock extends SlimefunItem {
             Player p = e.getPlayer();
             e.cancel();
             p.sendMessage(ChatColor.translateAlternateColorCodes('&', Slimefun.getCfg().getString("options.chat-prefix")) + color
-                    + "This Finite Rock cannot do anything by itself. But Maybe There is an item that can house"
-                    + " all of the rocks into one weapon of mass destruction..");
+                    + "这块有限的石头无法为你实现任何愿望。"
+                    + "但是也许有一种东西可以把所有的石头都装进一个大规模杀伤性武器里..");
 
         };
 

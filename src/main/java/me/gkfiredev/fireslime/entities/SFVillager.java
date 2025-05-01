@@ -1,12 +1,9 @@
 package me.gkfiredev.fireslime.entities;
 
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.groups.SeasonalItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import me.gkfiredev.fireslime.FireSlime;
-import net.md_5.bungee.api.ChatColor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -21,9 +18,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.SeasonalItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import me.gkfiredev.fireslime.FireSlime;
+import net.md_5.bungee.api.ChatColor;
 
 public class SFVillager implements Listener {
 
@@ -53,9 +54,9 @@ public class SFVillager implements Listener {
                 continue;
             }
             String name = ChatColor.stripColor(category.getUnlocalizedName()).toLowerCase();
-            if (name.contains("useful items") || name.contains("food") || name.contains("resources") || name.contains("magical items") || name.contains("drinks") || name.contains("gear") || name.contains("storage") || name.contains("talismans") || name.contains("garden")) {
+            if (name.contains("useful items") || name.contains("food") || name.contains("plant") || name.contains("bush") || name.contains("tree") || name.contains("crop") || name.contains("ingredient") || name.contains("drink") || name.contains("resources") || name.contains("magical items") || name.contains("drinks") || name.contains("gear") || name.contains("storage") || name.contains("talismans") || name.contains("garden") || name.contains("miscellaneous")) {
                 cheapSelection.add(category);
-            } else if (name.contains("energy") || name.contains("machines") || name.contains("gadgets")) {
+            } else if (name.contains("energy") || name.contains("machine") || name.contains("gadget") || name.contains("tool") || name.contains("magic") || name.contains("storage") || name.contains("component") || name.contains("armor") || name.contains("weapon") || name.contains("electric") || name.contains("xpansion") || name.contains("cargo") || name.contains("tech")) {
                 selection.add(category);
             }
         }
@@ -185,7 +186,7 @@ public class SFVillager implements Listener {
             if (sfItem.getItem().getItemMeta().hasLore()) {
                 List<String> lore = sfItem.getItem().getItemMeta().getLore();
                 for (String s : lore) {
-                    if (ChatColor.stripColor(s).toLowerCase().contains("hunger")) {
+                    if (ChatColor.stripColor(s).toLowerCase().contains("饥饿值")) {
                         isFood = true;
                         break;
                     }
@@ -196,13 +197,13 @@ public class SFVillager implements Listener {
             item.setAmount(new Random().nextInt(5) + 1);
         }
 
-        if (sfItem.getItemName().toLowerCase().contains("dust")) {
+        if (sfItem.getItemName().toLowerCase().contains("粉")) {
             item.setAmount(new Random().nextInt(6) + 1);
         }
         MerchantRecipe trade = new MerchantRecipe(item, maxUses);
         List<ItemStack> payment = new ArrayList<>();
         if (cheap) {
-            if (sfItem.getItemName().toLowerCase().contains("dust")) {
+            if (sfItem.getItemName().toLowerCase().contains("粉")) {
                 payment.add(new ItemStack(Material.EMERALD));
                 trade.setIngredients(payment);
             } else if (isFood) {
