@@ -54,9 +54,9 @@ public class SFVillager implements Listener {
                 continue;
             }
             String name = ChatColor.stripColor(category.getUnlocalizedName()).toLowerCase();
-            if (name.contains("useful items") || name.contains("food") || name.contains("resources") || name.contains("magical items") || name.contains("drinks") || name.contains("gear") || name.contains("storage") || name.contains("talismans") || name.contains("garden")) {
+            if (name.contains("useful items") || name.contains("food") || name.contains("plant") || name.contains("bush") || name.contains("tree") || name.contains("crop") || name.contains("ingredient") || name.contains("drink") || name.contains("resources") || name.contains("magical items") || name.contains("drinks") || name.contains("gear") || name.contains("storage") || name.contains("talismans") || name.contains("garden") || name.contains("miscellaneous")) {
                 cheapSelection.add(category);
-            } else if (name.contains("energy") || name.contains("machines") || name.contains("gadgets")) {
+            } else if (name.contains("energy") || name.contains("machine") || name.contains("gadget") || name.contains("tool") || name.contains("magic") || name.contains("storage") || name.contains("component") || name.contains("armor") || name.contains("weapon") || name.contains("electric") || name.contains("xpansion") || name.contains("cargo") || name.contains("tech")) {
                 selection.add(category);
             }
         }
