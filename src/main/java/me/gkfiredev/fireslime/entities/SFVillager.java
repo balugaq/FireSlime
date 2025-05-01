@@ -30,8 +30,8 @@ public class SFVillager implements Listener {
 
     private static final String KEY = "slimefunvillager";
 
-    private static List<ItemGroup> cheapSelection = new ArrayList<>();
-    private static List<ItemGroup> selection = new ArrayList<>();
+    private static final List<ItemGroup> cheapSelection = new ArrayList<>();
+    private static final List<ItemGroup> selection = new ArrayList<>();
 
     public static ItemGroup getRandomCategory() {
         int option = new Random().nextInt(2) + 1;
@@ -41,8 +41,7 @@ public class SFVillager implements Listener {
         } else {
             categories = new ArrayList<>(selection);
         }
-        ItemGroup category = categories.get(new Random().nextInt(categories.size()));
-        return category;
+        return categories.get(new Random().nextInt(categories.size()));
     }
 
     public static void updateCategoryList() {
@@ -109,9 +108,9 @@ public class SFVillager implements Listener {
             ItemStack item = trade.getResult();
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
             if (sfItem == null) continue;
-            if (usableTrades.contains(sfItem)) usableTrades.remove(sfItem);
+            usableTrades.remove(sfItem);
         }
-        if (usableTrades.size() == 0) return null;
+        if (usableTrades.isEmpty()) return null;
 
         return usableTrades;
     }
@@ -151,7 +150,9 @@ public class SFVillager implements Listener {
                 vil.getPersistentDataContainer().set(new NamespacedKey(FireSlime.getPlugin(), KEY), PersistentDataType.STRING, getIDName(NCategory));
             }
             MerchantRecipe trade = getRandomTrade(vil, id, (vil.getVillagerLevel() * 5) + 1);
-            ev.setRecipe(trade);
+            if (trade != null) {
+                ev.setRecipe(trade);
+            }
 
         }
     }
@@ -159,7 +160,10 @@ public class SFVillager implements Listener {
     private List<MerchantRecipe> getRandomTrades(Villager vil, String id, int size, int xp) {
         List<MerchantRecipe> recipes = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            recipes.add(getRandomTrade(vil, id, xp));
+            var recipe = getRandomTrade(vil, id, xp);
+            if (recipe != null) {
+                recipes.add(recipe);
+            }
         }
         return recipes;
     }
@@ -167,6 +171,9 @@ public class SFVillager implements Listener {
     private MerchantRecipe getRandomTrade(Villager vil, String id, int xp) {
         ItemGroup category = getCategoryFromUnlocalizedName(id);
         List<SlimefunItem> sfItems = getUnusedSFItems(category, vil.getRecipes());
+        if (sfItems == null) {
+            return null;
+        }
         boolean cheap = isCheapCategory(category);
         int maxUses;
         if (cheap) {
@@ -182,13 +189,16 @@ public class SFVillager implements Listener {
         ItemStack item = new ItemStack(sfItem.getItem());
         boolean isFood = false;
 
-        if (sfItem.getItem().hasItemMeta()) {
-            if (sfItem.getItem().getItemMeta().hasLore()) {
-                List<String> lore = sfItem.getItem().getItemMeta().getLore();
-                for (String s : lore) {
-                    if (ChatColor.stripColor(s).toLowerCase().contains("饥饿值")) {
-                        isFood = true;
-                        break;
+        if (item.hasItemMeta()) {
+            var meta = item.getItemMeta();
+            if (meta != null && meta.hasLore()) {
+                List<String> lore = meta.getLore();
+                if (lore != null) {
+                    for (String s : lore) {
+                        if (ChatColor.stripColor(s).toLowerCase().contains("饥饿值")) {
+                            isFood = true;
+                            break;
+                        }
                     }
                 }
             }
